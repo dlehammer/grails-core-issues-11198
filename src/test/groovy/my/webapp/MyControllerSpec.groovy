@@ -3,9 +3,6 @@ package my.webapp
 import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 
-/**
- * Class containing symptom, see "test commonLogic"
- */
 class MyControllerSpec extends Specification implements ControllerUnitTest<MyController> {
 
     FooService fooService
@@ -14,6 +11,15 @@ class MyControllerSpec extends Specification implements ControllerUnitTest<MyCon
         fooService = Mock(FooService)
 
         controller.fooService = fooService
+    }
+
+    /**
+     * Workaround as suggested by jameskleeh
+     * @see https://github.com/grails/grails-core/issues/11198#issuecomment-445011469
+     */
+    @Override
+    boolean disableControllerProxy() {
+        return true
     }
 
     /**
@@ -34,7 +40,7 @@ class MyControllerSpec extends Specification implements ControllerUnitTest<MyCon
     }
 
     /**
-     * Direct invocation throws {@code NullPointerException}, because fooService is {@code null}
+     * Direct invocation works as expected
      */
     void 'test commonLogic'() {
         given:
